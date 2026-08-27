@@ -1,0 +1,7 @@
+2026-08-27T08:31:04.120Z INFO  correlationId=4fd1 endpoint=/login user=john status=200 durationMs=43
+2026-08-27T08:35:11.004Z INFO  correlationId=a19b endpoint=/transfer from=12345 to=12456 amount=120.00 stage=validation status=OK
+2026-08-27T08:35:11.041Z INFO  correlationId=a19b endpoint=/transfer stage=database status=COMMIT durationMs=35
+2026-08-27T08:35:11.046Z INFO  correlationId=a19b endpoint=/transfer status=200 durationMs=42
+2026-08-27T08:42:54.900Z INFO  correlationId=7c91 endpoint=/transfer from=12345 to=999999 amount=50.00 stage=validation status=OK
+2026-08-27T08:42:54.931Z ERROR correlationId=7c91 endpoint=/transfer stage=database error=TARGET_ACCOUNT_NOT_FOUND status=500
+2026-08-27T08:47:00.020Z WARN  correlationId=88ef endpoint=/transfer from=12345 to=12456 amount=0 stage=validation rule=positive_amount result=FAIL status=400
