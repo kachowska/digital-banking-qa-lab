@@ -1,0 +1,15 @@
+id,source_test_case,reason
+RG-001,TC-UI-001,Core customer/banking flow or contract check
+RG-002,TC-UI-003,Core customer/banking flow or contract check
+RG-003,TC-UI-006,Core customer/banking flow or contract check
+RG-004,TC-UI-007,Core customer/banking flow or contract check
+RG-005,TC-UI-011,Core customer/banking flow or contract check
+RG-006,TC-UI-012,Core customer/banking flow or contract check
+RG-007,TC-API-001,Core customer/banking flow or contract check
+RG-008,TC-API-003,Core customer/banking flow or contract check
+RG-009,TC-API-005,Core customer/banking flow or contract check
+RG-010,TC-API-006,Core customer/banking flow or contract check
+RG-011,TC-API-009,Core customer/banking flow or contract check
+RG-012,TC-API-012,Core customer/banking flow or contract check
+RG-013,TC-API-014,Core customer/banking flow or contract check
+RG-014,TC-WCAG-001,Core customer/banking flow or contract check
