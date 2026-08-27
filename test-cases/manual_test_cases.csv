@@ -1,0 +1,37 @@
+id,area,title,preconditions,steps,expected_result,priority,test_type
+TC-UI-001,Authentication,Login page elements are present,Public site reachable,Open home page,"Username, password, Login, Register and recovery controls are visible",High,Smoke
+TC-UI-002,Authentication,Reject invalid credentials,Login page open,Enter invalid username/password; submit,Login is rejected with clear feedback; session is not created,High,Negative
+TC-UI-003,Authentication,Login with documented demo credentials,Demo data available,Enter documented demo credentials; submit,Authenticated account overview opens,Critical,Functional
+TC-UI-004,Registration,Required fields validation,Registration page open,Leave mandatory fields empty; submit,Mandatory fields are identified; account is not created,High,Negative
+TC-UI-005,Registration,Password confirmation mismatch,Registration page open,Enter different password and confirmation; submit,Validation prevents registration,High,Negative
+TC-UI-006,Accounts,Account overview after login,Authenticated user,Open account overview,Only accounts belonging to authenticated customer are listed,Critical,Functional
+TC-UI-007,Transfer,Transfer positive amount between own accounts,Two eligible accounts,Open transfer; choose source/target; enter positive amount; submit once,Transfer succeeds once; balances/transaction history reflect amount,Critical,Functional
+TC-UI-008,Transfer,Reject zero transfer amount,Authenticated user,Submit transfer with amount 0,Validation rejects transfer and balances remain unchanged,Critical,Negative
+TC-UI-009,Transfer,Reject negative transfer amount,Authenticated user,Submit transfer with negative amount,Validation rejects transfer and balances remain unchanged,Critical,Negative
+TC-UI-010,Transfer,Prevent accidental duplicate transfer,Valid transfer data,Submit; refresh/resubmit browser action,System should not unintentionally create duplicate money movement,Critical,Exploratory
+TC-UI-011,Bill Pay,Bill payment mandatory fields,Authenticated user,Open bill pay; omit payee/account fields; submit,Missing fields are reported; no payment is created,High,Negative
+TC-UI-012,Transactions,Account history displays latest transaction,Completed transfer exists,Open account history,Transfer transaction is visible with expected amount/type/date,High,Regression
+TC-UI-013,Customer,Update contact details,Authenticated user,Open profile; edit allowed contact field; save; reload,Updated value persists and unrelated fields remain unchanged,Medium,Functional
+TC-UI-014,Loan,Loan request with valid positive values,Authenticated user with account,Enter valid loan/down-payment/account; submit,A loan response is shown with decision details,High,Functional
+TC-API-001,API Authentication,Login endpoint valid credentials,API reachable,GET /login/{username}/{password} with documented demo credentials,HTTP 200; customer payload returned,Critical,API
+TC-API-002,API Authentication,Login endpoint invalid credentials,API reachable,Call login with invalid credentials,Non-success or explicit authentication failure response; no customer data leakage,Critical,API Negative
+TC-API-003,Accounts API,Get account by valid ID,Known account ID,GET /accounts/{accountId},"HTTP 200; response contains account id, customer id, type and balance",High,API
+TC-API-004,Accounts API,Get account with unknown ID,API reachable,GET /accounts/999999999,Clear not-found/error response; no unrelated account returned,High,API Negative
+TC-API-005,Accounts API,Get customer accounts,Known customer ID,GET /customers/{customerId}/accounts,HTTP 200; list contains only customer accounts,High,API
+TC-API-006,Transactions API,Get transactions for account,Known account ID,GET /accounts/{accountId}/transactions,HTTP 200; list structure is valid and account-consistent,High,API
+TC-API-007,Transactions API,Filter transactions by amount,Known account with transaction,GET /accounts/{accountId}/transactions/amount/{amount},Returned transactions match requested amount,Medium,API
+TC-API-008,Transactions API,Filter transactions by date range,Known account,GET /accounts/{accountId}/transactions/fromDate/{from}/toDate/{to},All returned transaction dates are inside range,Medium,API
+TC-API-009,Transfer API,Transfer valid positive amount,Two valid accounts,"POST /transfer with fromAccountId, toAccountId, amount",Success response; source/target balances and history reflect one transfer,Critical,API
+TC-API-010,Transfer API,Reject invalid source account,Target account valid,POST /transfer with unknown source ID,Operation fails; target balance is unchanged,Critical,API Negative
+TC-API-011,Transfer API,Reject non-positive amount,Two valid accounts,POST /transfer with amount <= 0,Operation rejected; no transaction created,Critical,API Negative
+TC-API-012,Loan API,Request loan with valid parameters,Known customer/account,POST /requestLoan with valid amount/downPayment/customer/account,LoanResponse schema returned; decision fields present,High,API
+TC-API-013,Customer API,Update customer with malformed data,Known customer,POST customer update with invalid/missing required values,Validation/error response; existing valid data remains intact,High,API Negative
+TC-API-014,API Contract,Content type and response schema,API reachable,Execute representative GET endpoint,Response content type matches documented format and required fields are present,High,Contract
+TC-WCAG-001,Accessibility,Keyboard navigation on login,Home page open,Navigate interactive controls using keyboard only,Focus reaches controls in logical order and focus is visible,Medium,WCAG
+TC-WCAG-002,Accessibility,Form labels associated with inputs,Login/registration form open,Inspect labels and activate them,Each input has a meaningful accessible label,Medium,WCAG
+TC-WCAG-003,Accessibility,Error message understandable without color only,Trigger validation error,Observe error presentation,"Error is conveyed by text/semantics, not color alone",Medium,WCAG
+TC-WCAG-004,Accessibility,Mobile viewport basic usability,Responsive/mobile viewport,Open login and core forms at narrow viewport,No essential control is clipped; fields remain usable,Low,WCAG
+TC-SUP-001,Support/Logs,Investigate failed transfer from correlation ID,Sample logs available,Search logs by correlationId; follow request events,Timeline identifies validation/DB/API step causing failure,High,Support
+TC-SUP-002,Support/Logs,Find all ERROR events for transfer endpoint,Sample logs available,Filter level=ERROR and endpoint=/transfer,Only matching errors returned with timestamp/correlation ID,Medium,Support
+TC-SUP-003,Support/Logs,Trace one customer support report,Ticket contains timestamp/customer/account,Correlate ticket data with logs and expected test case,"Investigation notes state reproduction status, likely layer and next action",High,Support
+TC-SUP-004,Regression,Retest fixed defect and related flow,Fix deployed to test env,Execute original failing case then related regression cases,Original issue passes and no regression is introduced,High,Regression
