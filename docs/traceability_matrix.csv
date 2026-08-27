@@ -1,0 +1,11 @@
+requirement_id,requirement,test_case_ids
+REQ-01,User authentication and account access,TC-UI-001;TC-UI-002;TC-UI-003;TC-API-001;TC-API-002
+REQ-02,Customer accounts can be retrieved,TC-UI-006;TC-API-003;TC-API-005
+REQ-03,Money transfers preserve account integrity,TC-UI-007;TC-UI-008;TC-UI-009;TC-UI-010;TC-API-009;TC-API-010;TC-API-011
+REQ-04,Transactions can be reviewed/filtered,TC-UI-012;TC-API-006;TC-API-007;TC-API-008
+REQ-05,Bill payments validate required data,TC-UI-011
+REQ-06,Loan requests return a decision,TC-UI-014;TC-API-012
+REQ-07,Customer data updates are validated,TC-UI-013;TC-API-013
+REQ-08,API contract is documented and consistent,TC-API-014
+REQ-09,Core UI has basic accessibility coverage,TC-WCAG-001;TC-WCAG-002;TC-WCAG-003;TC-WCAG-004
+REQ-10,Support incidents can be investigated,TC-SUP-001;TC-SUP-002;TC-SUP-003;TC-SUP-004
