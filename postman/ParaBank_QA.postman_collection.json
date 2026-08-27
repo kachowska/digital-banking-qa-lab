@@ -1,0 +1,197 @@
+{
+  "info": {
+    "name": "ParaBank QA - Manual API Checks",
+    "description": "Portfolio collection for manual REST/API testing against the public ParaBank demo. Review/adjust IDs before execution because shared demo data can change.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://parabank.parasoft.com/parabank/services/bank"
+    },
+    {
+      "key": "username",
+      "value": "john"
+    },
+    {
+      "key": "password",
+      "value": "demo"
+    },
+    {
+      "key": "customerId",
+      "value": "12212"
+    },
+    {
+      "key": "accountId",
+      "value": "12345"
+    }
+  ],
+  "item": [
+    {
+      "name": "Login - documented demo credentials",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/login/{{username}}/{{password}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "login",
+            "{{username}}",
+            "{{password}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is successful', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201]); });",
+              "pm.test('Response is not empty', function () { pm.expect(pm.response.text().length).to.be.above(0); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get customer accounts",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/customers/{{customerId}}/accounts",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "customers",
+            "{{customerId}}",
+            "accounts"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Response has content', function () { pm.expect(pm.response.text()).to.not.eql(''); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get account by id",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/accounts/{{accountId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "accounts",
+            "{{accountId}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Account id appears in response', function () { pm.expect(pm.response.text()).to.include(pm.collectionVariables.get('accountId')); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get account transactions",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/accounts/{{accountId}}/transactions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "accounts",
+            "{{accountId}}",
+            "transactions"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Unknown account negative check",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/accounts/999999999",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "accounts",
+            "999999999"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Unknown account does not return a normal valid account', function () { pm.expect(pm.response.code).to.not.eql(200); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
